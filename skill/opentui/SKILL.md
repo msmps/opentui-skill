@@ -1,10 +1,8 @@
 ---
 name: opentui
 description: Comprehensive OpenTUI skill for building terminal user interfaces. Covers the core imperative API, React reconciler, and Solid reconciler. Use for any TUI development task including components, layout, keyboard handling, animations, and testing.
-references:
-  - core
-  - react
-  - solid
+metadata:
+   references: core, react, solid
 ---
 
 # OpenTUI Platform Skill
@@ -15,7 +13,7 @@ Consolidated skill for building terminal user interfaces with OpenTUI. Use decis
 
 **Follow these rules in all OpenTUI code:**
 
-1. **Use `create-tui` for new projects.** See framework `README.md` quick starts.
+1. **Use `create-tui` for new projects.** See framework `REFERENCE.md` quick starts.
 2. **`create-tui` options must come before arguments.** `bunx create-tui -t react my-app` works, `bunx create-tui my-app -t react` does NOT.
 3. **Never call `process.exit()` directly.** Use `renderer.destroy()` (see `core/gotchas.md`).
 4. **Text styling requires nested tags in React/Solid.** Use modifier elements, not props (see `components/text-display.md`).
@@ -30,27 +28,27 @@ Each framework in `./references/<framework>/` contains:
 
 | File | Purpose | When to Read |
 |------|---------|--------------|
-| `README.md` | Overview, when to use, quick start | **Always read first** |
+| `REFERENCE.md` | Overview, when to use, quick start | **Always read first** |
 | `api.md` | Runtime API, components, hooks | Writing code |
 | `configuration.md` | Setup, tsconfig, bundling | Configuring a project |
 | `patterns.md` | Common patterns, best practices | Implementation guidance |
 | `gotchas.md` | Pitfalls, limitations, debugging | Troubleshooting |
 
-Cross-cutting concepts in `./references/<concept>/` have `README.md` as the entry point.
+Cross-cutting concepts in `./references/<concept>/` have `REFERENCE.md` as the entry point.
 
 ### Reading Order
 
-1. Start with `README.md` for your chosen framework
+1. Start with `REFERENCE.md` for your chosen framework
 2. Then read additional files relevant to your task:
    - Building components -> `api.md` + `components/<category>.md`
    - Setting up project -> `configuration.md`
-   - Layout/positioning -> `layout/README.md`
-   - Troubleshooting -> `gotchas.md` + `testing/README.md`
+   - Layout/positioning -> `layout/REFERENCE.md`
+   - Troubleshooting -> `gotchas.md` + `testing/REFERENCE.md`
 
 ### Example Paths
 
 ```
-./references/react/README.md           # Start here for React
+./references/react/REFERENCE.md           # Start here for React
 ./references/react/api.md              # React components and hooks
 ./references/solid/configuration.md    # Solid project setup
 ./references/components/inputs.md      # Input, Textarea, Select docs
@@ -98,14 +96,14 @@ User input?
 ├─ Multi-line text editor -> components/inputs.md (textarea)
 ├─ Select from a list (vertical) -> components/inputs.md (select)
 ├─ Tab-based selection (horizontal) -> components/inputs.md (tab-select)
-└─ Custom keyboard shortcuts -> keyboard/README.md
+└─ Custom keyboard shortcuts -> keyboard/REFERENCE.md
 ```
 
 ### "I need layout/positioning"
 
 ```
 Layout?
-├─ Flexbox-style layouts (row, column, wrap) -> layout/README.md
+├─ Flexbox-style layouts (row, column, wrap) -> layout/REFERENCE.md
 ├─ Absolute positioning -> layout/patterns.md
 ├─ Responsive to terminal size -> layout/patterns.md
 ├─ Centering content -> layout/patterns.md
@@ -116,19 +114,19 @@ Layout?
 
 ```
 Animations?
-├─ Timeline-based animations -> animation/README.md
-├─ Easing functions -> animation/README.md
-├─ Property transitions -> animation/README.md
-└─ Looping animations -> animation/README.md
+├─ Timeline-based animations -> animation/REFERENCE.md
+├─ Easing functions -> animation/REFERENCE.md
+├─ Property transitions -> animation/REFERENCE.md
+└─ Looping animations -> animation/REFERENCE.md
 ```
 
 ### "I need to handle input"
 
 ```
 Input handling?
-├─ Keyboard events (keypress, release) -> keyboard/README.md
-├─ Focus management -> keyboard/README.md
-├─ Paste events -> keyboard/README.md
+├─ Keyboard events (keypress, release) -> keyboard/REFERENCE.md
+├─ Focus management -> keyboard/REFERENCE.md
+├─ Paste events -> keyboard/REFERENCE.md
 ├─ Mouse events -> components/containers.md
 └─ Text selection -> components/text-display.md
 ```
@@ -137,10 +135,10 @@ Input handling?
 
 ```
 Testing?
-├─ Snapshot testing -> testing/README.md
-├─ Interaction testing -> testing/README.md
-├─ Test renderer setup -> testing/README.md
-└─ Debugging tests -> testing/README.md
+├─ Snapshot testing -> testing/REFERENCE.md
+├─ Interaction testing -> testing/REFERENCE.md
+├─ Test renderer setup -> testing/REFERENCE.md
+└─ Debugging tests -> testing/REFERENCE.md
 ```
 
 ### "I need to debug/troubleshoot"
@@ -148,38 +146,38 @@ Testing?
 ```
 Troubleshooting?
 ├─ Runtime errors, crashes -> <framework>/gotchas.md
-├─ Layout issues -> layout/README.md + layout/patterns.md
-├─ Input/focus issues -> keyboard/README.md
-└─ Repro + regression tests -> testing/README.md
+├─ Layout issues -> layout/REFERENCE.md + layout/patterns.md
+├─ Input/focus issues -> keyboard/REFERENCE.md
+└─ Repro + regression tests -> testing/REFERENCE.md
 ```
 
 ### Troubleshooting Index
 
 - Terminal cleanup, crashes -> `core/gotchas.md`
 - Text styling not applying -> `components/text-display.md`
-- Input focus/shortcuts -> `keyboard/README.md`
-- Layout misalignment -> `layout/README.md`
-- Flaky snapshots -> `testing/README.md`
+- Input focus/shortcuts -> `keyboard/REFERENCE.md`
+- Layout misalignment -> `layout/REFERENCE.md`
+- Flaky snapshots -> `testing/REFERENCE.md`
 
-For component naming differences and text modifiers, see `components/README.md`.
+For component naming differences and text modifiers, see `components/REFERENCE.md`.
 
 ## Product Index
 
 ### Frameworks
 | Framework | Entry File | Description |
 |-----------|------------|-------------|
-| Core | `./references/core/README.md` | Imperative API, all primitives |
-| React | `./references/react/README.md` | React reconciler for declarative TUI |
-| Solid | `./references/solid/README.md` | SolidJS reconciler for declarative TUI |
+| Core | `./references/core/REFERENCE.md` | Imperative API, all primitives |
+| React | `./references/react/REFERENCE.md` | React reconciler for declarative TUI |
+| Solid | `./references/solid/REFERENCE.md` | SolidJS reconciler for declarative TUI |
 
 ### Cross-Cutting Concepts
 | Concept | Entry File | Description |
 |---------|------------|-------------|
-| Layout | `./references/layout/README.md` | Yoga/Flexbox layout system |
-| Components | `./references/components/README.md` | Component reference by category |
-| Keyboard | `./references/keyboard/README.md` | Keyboard input handling |
-| Animation | `./references/animation/README.md` | Timeline-based animations |
-| Testing | `./references/testing/README.md` | Test renderer and snapshots |
+| Layout | `./references/layout/REFERENCE.md` | Yoga/Flexbox layout system |
+| Components | `./references/components/REFERENCE.md` | Component reference by category |
+| Keyboard | `./references/keyboard/REFERENCE.md` | Keyboard input handling |
+| Animation | `./references/animation/REFERENCE.md` | Timeline-based animations |
+| Testing | `./references/testing/REFERENCE.md` | Test renderer and snapshots |
 
 ### Component Categories
 | Category | Entry File | Components |

@@ -137,9 +137,9 @@ bun run build
 
 ## See Also
 
-- [React](../react/README.md) - React reconciler for declarative TUI
-- [Solid](../solid/README.md) - Solid reconciler for declarative TUI
-- [Layout](../layout/README.md) - Yoga/Flexbox layout system
-- [Components](../components/README.md) - Component reference by category
-- [Keyboard](../keyboard/README.md) - Input handling and shortcuts
-- [Testing](../testing/README.md) - Test renderer and snapshots
+- [React](../react/REFERENCE.md) - React reconciler for declarative TUI
+- [Solid](../solid/REFERENCE.md) - Solid reconciler for declarative TUI
+- [Layout](../layout/REFERENCE.md) - Yoga/Flexbox layout system
+- [Components](../components/REFERENCE.md) - Component reference by category
+- [Keyboard](../keyboard/REFERENCE.md) - Input handling and shortcuts
+- [Testing](../testing/REFERENCE.md) - Test renderer and snapshots

@@ -193,9 +193,9 @@ function DynamicInput(props: { multiline: boolean }) {
 
 ## See Also
 
-- [Core](../core/README.md) - Underlying imperative API
-- [React](../react/README.md) - Alternative declarative approach
-- [Components](../components/README.md) - Component reference by category
-- [Layout](../layout/README.md) - Flexbox layout system
-- [Keyboard](../keyboard/README.md) - Input handling and shortcuts
-- [Testing](../testing/README.md) - Test renderer and snapshots
+- [Core](../core/REFERENCE.md) - Underlying imperative API
+- [React](../react/REFERENCE.md) - Alternative declarative approach
+- [Components](../components/REFERENCE.md) - Component reference by category
+- [Layout](../layout/REFERENCE.md) - Flexbox layout system
+- [Keyboard](../keyboard/REFERENCE.md) - Input handling and shortcuts
+- [Testing](../testing/REFERENCE.md) - Test renderer and snapshots

@@ -47,7 +47,7 @@ Components have different names across frameworks:
 
 ## Common Properties
 
-All components share these layout properties (see [Layout](../layout/README.md)):
+All components share these layout properties (see [Layout](../layout/REFERENCE.md)):
 
 ```tsx
 // Positioning
@@ -137,4 +137,4 @@ render(() => <App />)
 - [Core API](../core/api.md) - Imperative component classes
 - [React API](../react/api.md) - React component props
 - [Solid API](../solid/api.md) - Solid component props
-- [Layout](../layout/README.md) - Layout system details
+- [Layout](../layout/REFERENCE.md) - Layout system details

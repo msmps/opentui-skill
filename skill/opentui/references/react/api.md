@@ -224,7 +224,7 @@ function AnimatedBox() {
   // Colors
   backgroundColor="#1a1a2e"
   
-  // Layout (see layout/README.md)
+  // Layout (see layout/REFERENCE.md)
   flexDirection="row"
   justifyContent="center"
   alignItems="center"

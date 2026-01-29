@@ -45,13 +45,13 @@ Based on task type, read from `references/<area>/`:
 
 | Task | Files to Read |
 |------|---------------|
-| New project setup | `<framework>/README.md` + `<framework>/configuration.md` |
+| New project setup | `<framework>/REFERENCE.md` + `<framework>/configuration.md` |
 | Implement components | `<framework>/api.md` + `components/<category>.md` |
-| Layout/positioning | `layout/README.md` + `layout/patterns.md` |
-| Handle keyboard input | `keyboard/README.md` |
-| Add animations | `animation/README.md` |
-| Debug/troubleshoot | `<framework>/gotchas.md` + `testing/README.md` |
-| Write tests | `testing/README.md` |
+| Layout/positioning | `layout/REFERENCE.md` + `layout/patterns.md` |
+| Handle keyboard input | `keyboard/REFERENCE.md` |
+| Add animations | `animation/REFERENCE.md` |
+| Debug/troubleshoot | `<framework>/gotchas.md` + `testing/REFERENCE.md` |
+| Write tests | `testing/REFERENCE.md` |
 | Understand patterns | `<framework>/patterns.md` |
 
 ### Step 5: Execute task
