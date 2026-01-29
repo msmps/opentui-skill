@@ -4,6 +4,18 @@ OpenTUI platform reference docs. Covers the Core imperative API, React reconcile
 
 ## Install
 
+### AI Coding Assistants
+
+Add the skill to your AI coding assistant for richer context:
+
+```bash
+npx skills add msmps/opentui-skill
+```
+
+This works with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Goose, OpenCode, and Windsurf.
+
+### OpenCode (inc /command)
+
 Local installation (current project only):
 
 ```bash
