@@ -37,9 +37,32 @@ function App() {
     
     // Show debug console
     renderer.console.show()
+    
+    // Access theme mode (dark/light based on terminal settings)
+    console.log(`Theme: ${renderer.themeMode}`)  // "dark" | "light" | null
   }, [renderer])
   
   return <text>Hello</text>
+}
+
+// Listen for theme mode changes
+function ThemedApp() {
+  const renderer = useRenderer()
+  const [theme, setTheme] = useState(renderer.themeMode ?? "dark")
+  
+  useEffect(() => {
+    const handler = (mode: "dark" | "light") => setTheme(mode)
+    renderer.on("theme_mode", handler)
+    return () => renderer.off("theme_mode", handler)
+  }, [renderer])
+  
+  return (
+    <box backgroundColor={theme === "dark" ? "#1a1a2e" : "#ffffff"}>
+      <text fg={theme === "dark" ? "#fff" : "#000"}>
+        Current theme: {theme}
+      </text>
+    </box>
+  )
 }
 ```
 
@@ -233,12 +256,20 @@ function AnimatedBox() {
   // Spacing
   padding={2}
   paddingTop={1}
+  paddingX={2}              // Horizontal (left + right)
+  paddingY={1}              // Vertical (top + bottom)
   margin={1}
+  marginX={2}               // Horizontal (left + right)
+  marginY={1}               // Vertical (top + bottom)
   
   // Dimensions
   width={40}
   height={10}
   flexGrow={1}
+  
+  // Focus
+  focusable                 // Allow box to receive focus
+  focused={isFocused}       // Controlled focus state
   
   // Events
   onMouseDown={(e) => {}}
