@@ -397,11 +397,57 @@ renderer.keyInput.on("paste", (text: string) => {
 })
 ```
 
-### React/Solid
+### Solid
+
+Solid provides a dedicated `usePaste` hook:
 
 ```tsx
-// Currently handled through the global keyboard listener
-// or via input component's onChange
+import { usePaste } from "@opentui/solid"
+
+function App() {
+  usePaste((event) => {
+    console.log("Pasted:", event.text)
+  })
+  
+  return <text>Paste something</text>
+}
+```
+
+> **Note**: `usePaste` is **Solid-only**. React does not have this hook - handle paste via the Core event emitter or input component's `onChange`.
+
+## Clipboard API (OSC 52)
+
+Copy text to the system clipboard using OSC 52 escape sequences. Works over SSH and in most modern terminal emulators.
+
+### Core
+
+```typescript
+// Copy to clipboard
+const success = renderer.copyToClipboardOSC52("text to copy")
+
+// Check if OSC 52 is supported
+if (renderer.isOsc52Supported()) {
+  renderer.copyToClipboardOSC52("Hello!")
+}
+
+// Clear clipboard
+renderer.clearClipboardOSC52()
+
+// Target specific clipboard (X11)
+import { ClipboardTarget } from "@opentui/core"
+renderer.copyToClipboardOSC52("text", ClipboardTarget.Primary)   // X11 primary
+renderer.copyToClipboardOSC52("text", ClipboardTarget.Clipboard) // System clipboard (default)
+```
+
+### From Selection
+
+The Selection object provides a convenience method:
+
+```tsx
+// Solid
+useSelectionHandler((selection) => {
+  selection.copyToClipboard()  // Uses OSC 52 internally
+})
 ```
 
 ## Focus and Input Components
