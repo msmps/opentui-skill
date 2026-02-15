@@ -85,9 +85,30 @@ function App() {
   onMount(() => {
     console.log(`Terminal: ${renderer.width}x${renderer.height}`)
     renderer.console.show()
+    
+    // Access theme mode (dark/light based on terminal settings)
+    console.log(`Theme: ${renderer.themeMode}`)  // "dark" | "light" | null
   })
   
   return <text>Hello</text>
+}
+
+// Listen for theme mode changes
+function ThemedApp() {
+  const renderer = useRenderer()
+  const [theme, setTheme] = createSignal(renderer.themeMode ?? "dark")
+  
+  onMount(() => {
+    renderer.on("theme_mode", (mode: "dark" | "light") => setTheme(mode))
+  })
+  
+  return (
+    <box backgroundColor={theme() === "dark" ? "#1a1a2e" : "#ffffff"}>
+      <text fg={theme() === "dark" ? "#fff" : "#000"}>
+        Current theme: {theme()}
+      </text>
+    </box>
+  )
 }
 ```
 
@@ -189,19 +210,38 @@ function ResponsiveLayout() {
 
 ### useSelectionHandler(handler)
 
-Handle text selection events.
+Handle text selection events. Solid-only hook - React does not have this.
 
 ```tsx
 import { useSelectionHandler } from "@opentui/solid"
+import type { Selection } from "@opentui/core"
 
 function SelectableText() {
-  useSelectionHandler((selection) => {
-    console.log("Selected:", selection.text)
+  const [selected, setSelected] = createSignal("")
+  
+  useSelectionHandler((selection: Selection) => {
+    const text = selection.getSelectedText()
+    if (text) {
+      setSelected(text)
+      // Copy to clipboard if needed
+      selection.copyToClipboard()
+    }
   })
   
-  return <text selectable>Select this text</text>
+  return (
+    <box flexDirection="column">
+      <text selectable>Select this text with your mouse</text>
+      <text fg="#888">Selected: {selected()}</text>
+    </box>
+  )
 }
 ```
+
+**Selection properties/methods:**
+- `getSelectedText(): string` - Get the selected text content
+- `copyToClipboard(): void` - Copy selection to system clipboard (via OSC 52)
+- `start: ConsolePosition` - Selection start position
+- `end: ConsolePosition` - Selection end position
 
 ### useTimeline(options?)
 
@@ -282,12 +322,20 @@ function AnimatedBox() {
   
   // Spacing
   padding={2}
+  paddingX={2}              // Horizontal (left + right)
+  paddingY={1}              // Vertical (top + bottom)
   margin={1}
+  marginX={2}               // Horizontal (left + right)
+  marginY={1}               // Vertical (top + bottom)
   
   // Dimensions
   width={40}
   height={10}
   flexGrow={1}
+  
+  // Focus
+  focusable                 // Allow box to receive focus
+  focused={isFocused()}     // Controlled focus state
   
   // Events
   onMouseDown={(e) => {}}
