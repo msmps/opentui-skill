@@ -410,3 +410,35 @@ function Divider() {
   <text>Section 2</text>
 </box>
 ```
+
+### Axis Shorthand Props
+
+Use `paddingX`/`paddingY` and `marginX`/`marginY` for horizontal/vertical spacing:
+
+```tsx
+// Horizontal padding (left + right)
+<box paddingX={4}>
+  <text>4 chars padding left and right</text>
+</box>
+
+// Vertical padding (top + bottom)
+<box paddingY={2}>
+  <text>2 lines padding top and bottom</text>
+</box>
+
+// Horizontal margin for centering-like effect
+<box marginX={10}>
+  <text>Indented content</text>
+</box>
+
+// Combined for card-like spacing
+<box paddingX={3} paddingY={1} marginY={1} border>
+  <text>Nicely spaced card</text>
+</box>
+```
+
+These are shorthand for:
+- `paddingX={n}` = `paddingLeft={n}` + `paddingRight={n}`
+- `paddingY={n}` = `paddingTop={n}` + `paddingBottom={n}`
+- `marginX={n}` = `marginLeft={n}` + `marginRight={n}`
+- `marginY={n}` = `marginTop={n}` + `marginBottom={n}`
