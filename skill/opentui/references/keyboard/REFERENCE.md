@@ -502,3 +502,10 @@ Key detection may vary over SSH. Test on target environments.
 ### Multiple Handlers
 
 Multiple `useKeyboard` calls all receive events. Coordinate handlers to prevent conflicts.
+
+## See Also
+
+- [React API](../react/api.md) - `useKeyboard` hook reference
+- [Solid API](../solid/api.md) - `useKeyboard` hook reference
+- [Input Components](../components/inputs.md) - Focus management with input, textarea, select
+- [Testing](../testing/REFERENCE.md) - Simulating key presses in tests
