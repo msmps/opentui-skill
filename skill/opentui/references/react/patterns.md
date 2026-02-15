@@ -169,13 +169,16 @@ function AutoFocusInput() {
 ### Global Shortcuts
 
 ```tsx
-import { useKeyboard } from "@opentui/react"
+import { useKeyboard, useRenderer } from "@opentui/react"
 
 function App() {
+  const renderer = useRenderer()
+  
   useKeyboard((key) => {
-    // Quit on Escape or Ctrl+C
+    // Quit on Escape or Ctrl+C - use renderer.destroy(), never process.exit()
     if (key.name === "escape" || (key.ctrl && key.name === "c")) {
-      process.exit(0)
+      renderer.destroy()
+      return
     }
     
     // Toggle help on ?
