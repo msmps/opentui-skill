@@ -105,8 +105,12 @@ Boxes are flex containers by default:
   paddingRight={2}
   paddingBottom={1}
   paddingLeft={2}
+  paddingX={2}              // Horizontal (left + right)
+  paddingY={1}              // Vertical (top + bottom)
   margin={1}
   marginTop={1}
+  marginX={2}               // Horizontal (left + right)
+  marginY={1}               // Vertical (top + bottom)
 >
   Spaced content
 </box>
@@ -140,6 +144,31 @@ Boxes are flex containers by default:
   Clickable box
 </box>
 ```
+
+### Focusable Boxes
+
+By default, Box elements are not focusable. Set the `focusable` prop to enable focus behavior:
+
+```tsx
+// Make a box focusable - it can receive focus via mouse click
+<box focusable border>
+  <text>Click to focus</text>
+</box>
+
+// Controlled focus state
+const [focused, setFocused] = useState(false)
+
+<box
+  focusable
+  focused={focused}
+  border
+  borderColor={focused ? "#00ff00" : "#888"}
+>
+  <text>{focused ? "Focused!" : "Not focused"}</text>
+</box>
+```
+
+When a focusable Box is clicked, focus bubbles up from the click target to the nearest focusable parent. Use `event.preventDefault()` in `onMouseDown` to prevent auto-focus.
 
 ## ScrollBox Component
 

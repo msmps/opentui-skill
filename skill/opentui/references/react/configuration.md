@@ -146,6 +146,8 @@ const renderer = await createCliRenderer({
   
   // Behavior
   exitOnCtrlC: true,        // Set false to handle Ctrl+C yourself
+  autoFocus: true,          // Auto-focus elements on click (default: true)
+  useMouse: true,           // Enable mouse support (default: true)
   
   // Debug console
   consoleOptions: {

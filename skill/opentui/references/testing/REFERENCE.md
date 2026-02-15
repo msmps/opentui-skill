@@ -605,3 +605,10 @@ bun test
 
 # Not from repo root for package-specific tests
 ```
+
+## See Also
+
+- [Core API](../core/api.md) - `createTestRenderer` and renderable classes
+- [React Configuration](../react/configuration.md) - React test setup
+- [Solid Configuration](../solid/configuration.md) - Solid test setup
+- [Keyboard](../keyboard/REFERENCE.md) - Simulating key events in tests

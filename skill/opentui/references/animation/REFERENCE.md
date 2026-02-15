@@ -422,3 +422,10 @@ useEffect(() => {
   return () => clearInterval(interval)
 }, [])
 ```
+
+## See Also
+
+- [React API](../react/api.md) - `useTimeline` hook reference
+- [Solid API](../solid/api.md) - `useTimeline` hook reference
+- [Core API](../core/api.md) - `AnimationEngine` and `Timeline` classes
+- [Layout Patterns](../layout/patterns.md) - Animated positioning and transitions

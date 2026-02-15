@@ -24,6 +24,17 @@ function App() {
 
 `renderer.destroy()` restores the terminal (exits alternate screen, restores cursor, etc.) before exiting.
 
+### Signal Handling
+
+OpenTUI automatically handles cleanup for these signals:
+- `SIGINT` (Ctrl+C), `SIGTERM`, `SIGQUIT` - Standard termination
+- `SIGHUP` - Terminal closed/hangup
+- `SIGBREAK` - Ctrl+Break (Windows)
+- `SIGPIPE` - Broken pipe (output closed)
+- `SIGBUS`, `SIGFPE` - Hardware errors
+
+This ensures terminal state is restored even on unexpected termination. If you need custom signal handling, use `exitOnCtrlC: false` and handle signals yourself while still calling `renderer.destroy()`.
+
 ## JSX Configuration
 
 ### Missing jsxImportSource

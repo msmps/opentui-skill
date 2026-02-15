@@ -150,6 +150,8 @@ render(() => <App />, {
   
   // Behavior
   exitOnCtrlC: true,
+  autoFocus: true,          // Auto-focus elements on click (default: true)
+  useMouse: true,           // Enable mouse support (default: true)
   
   // Debug console
   consoleOptions: {
