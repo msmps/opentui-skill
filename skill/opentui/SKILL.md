@@ -43,6 +43,8 @@ Cross-cutting concepts in `./references/<concept>/` have `REFERENCE.md` as the e
    - Building components -> `api.md` + `components/<category>.md`
    - Setting up project -> `configuration.md`
    - Layout/positioning -> `layout/REFERENCE.md`
+   - Keyboard/input handling -> `keyboard/REFERENCE.md`
+   - Animations -> `animation/REFERENCE.md`
    - Troubleshooting -> `gotchas.md` + `testing/REFERENCE.md`
 
 ### Example Paths
