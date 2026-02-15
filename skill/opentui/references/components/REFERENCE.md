@@ -13,7 +13,7 @@ Use this reference when you need to find the right component category or compare
 | Text & Display | text, ascii-font, styled text | [text-display.md](./text-display.md) |
 | Containers | box, scrollbox, borders | [containers.md](./containers.md) |
 | Inputs | input, textarea, select, tab-select | [inputs.md](./inputs.md) |
-| Code & Diff | code, line-number, diff | [code-diff.md](./code-diff.md) |
+| Code & Diff | code, line-number, diff, markdown | [code-diff.md](./code-diff.md) |
 
 ## Component Chooser
 
@@ -22,7 +22,7 @@ Need a component?
 ├─ Styled text or ASCII art -> text-display.md
 ├─ Containers, borders, scrolling -> containers.md
 ├─ Forms or input controls -> inputs.md
-└─ Code blocks, diffs, line numbers -> code-diff.md
+└─ Code blocks, diffs, line numbers, markdown -> code-diff.md
 ```
 
 ## Component Naming
@@ -42,6 +42,7 @@ Components have different names across frameworks:
 | Code | `CodeRenderable` | `<code>` | `<code>` |
 | Line Number | `LineNumberRenderable` | `<line-number>` | `<line_number>` |
 | Diff | `DiffRenderable` | `<diff>` | `<diff>` |
+| Markdown | `MarkdownRenderable` | `<markdown>` | `<markdown>` |
 
 **Note**: Solid uses underscores (`tab_select`) while React uses hyphens (`tab-select`).
 
@@ -65,7 +66,9 @@ flexWrap, gap
 
 // Spacing
 padding, paddingTop, paddingRight, paddingBottom, paddingLeft
+paddingX, paddingY              // Axis shorthand (horizontal/vertical)
 margin, marginTop, marginRight, marginBottom, marginLeft
+marginX, marginY                // Axis shorthand (horizontal/vertical)
 
 // Display
 display="flex" | "none"
