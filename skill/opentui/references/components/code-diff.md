@@ -54,6 +54,42 @@ OpenTUI uses Tree-sitter for syntax highlighting. Common languages:
 />
 ```
 
+### onHighlight Callback
+
+Intercept and modify syntax highlights before rendering:
+
+```tsx
+// Core
+const codeBlock = new CodeRenderable(renderer, {
+  id: "code",
+  code: sourceCode,
+  language: "typescript",
+  onHighlight: (highlights, context) => {
+    // Add custom highlights
+    highlights.push([10, 20, "custom.error", {}])
+    return highlights
+  },
+})
+
+// React/Solid
+<code
+  code={sourceCode}
+  language="typescript"
+  onHighlight={(highlights, context) => {
+    // context: { content, filetype, syntaxStyle }
+    // Modify and return highlights array
+    return highlights.filter(h => h[2] !== "comment")
+  }}
+/>
+```
+
+**Callback signature:**
+- `highlights: SimpleHighlight[]` - Array of `[start, end, scope, metadata]`
+- `context: { content, filetype, syntaxStyle }` - Highlighting context
+- Return modified highlights array or `undefined` to use original
+
+Supports async callbacks for fetching additional highlight data.
+
 ## Line Number Component
 
 Code display with line numbers, highlighting, and diagnostics.
@@ -236,6 +272,88 @@ const diffView = new DiffRenderable(renderer, {
   addedLineColor="#2d4f2d"   // Background for added lines
   removedLineColor="#4f2d2d" // Background for removed lines
   unchangedLineColor="transparent"
+/>
+```
+
+## Markdown Component
+
+Render markdown content with syntax highlighting for code blocks.
+
+### Basic Usage
+
+```tsx
+// React
+<markdown
+  content={markdownText}
+  syntaxStyle={mySyntaxStyle}
+/>
+
+// Solid
+<markdown
+  content={markdownText}
+  syntaxStyle={mySyntaxStyle}
+/>
+
+// Core
+import { MarkdownRenderable } from "@opentui/core"
+
+const md = new MarkdownRenderable(renderer, {
+  id: "markdown",
+  content: "# Hello\n\nThis is **markdown**.",
+  syntaxStyle: mySyntaxStyle,
+})
+```
+
+### Options
+
+```tsx
+<markdown
+  content={markdownText}
+  syntaxStyle={syntaxStyle}
+  treeSitterClient={client}  // Optional: custom tree-sitter client
+  conceal={true}             // Hide markdown syntax characters
+  streaming={true}           // Enable streaming mode for incremental updates
+/>
+```
+
+### Custom Node Rendering
+
+```tsx
+// Core
+const md = new MarkdownRenderable(renderer, {
+  id: "markdown",
+  content: "# Custom Heading",
+  syntaxStyle,
+  renderNode: (node, ctx, defaultRender) => {
+    if (node.type === "heading") {
+      // Return custom renderable for headings
+      return new TextRenderable(ctx, {
+        content: `>> ${node.content} <<`,
+      })
+    }
+    return null // Use default rendering
+  },
+})
+```
+
+### Streaming Mode
+
+For real-time content like LLM output:
+
+```tsx
+const [content, setContent] = useState("")
+
+// Append text as it arrives
+useEffect(() => {
+  llmStream.on("token", (token) => {
+    setContent(c => c + token)
+  })
+}, [])
+
+<markdown
+  content={content}
+  syntaxStyle={syntaxStyle}
+  streaming={true}  // Optimizes for incremental updates
 />
 ```
 
