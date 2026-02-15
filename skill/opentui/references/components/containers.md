@@ -105,8 +105,12 @@ Boxes are flex containers by default:
   paddingRight={2}
   paddingBottom={1}
   paddingLeft={2}
+  paddingX={2}              // Horizontal (left + right)
+  paddingY={1}              // Vertical (top + bottom)
   margin={1}
   marginTop={1}
+  marginX={2}               // Horizontal (left + right)
+  marginY={1}               // Vertical (top + bottom)
 >
   Spaced content
 </box>
