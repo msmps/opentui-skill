@@ -85,7 +85,8 @@ Display content?
 ├─ ASCII art banner/title -> components/text-display.md (ascii-font)
 ├─ Code with syntax highlighting -> components/code-diff.md
 ├─ Diff viewer (unified/split) -> components/code-diff.md
-└─ Line numbers with diagnostics -> components/code-diff.md
+├─ Line numbers with diagnostics -> components/code-diff.md
+└─ Markdown content (streaming) -> components/code-diff.md (markdown)
 ```
 
 ### "I need user input"
@@ -185,7 +186,7 @@ For component naming differences and text modifiers, see `components/REFERENCE.m
 | Text & Display | `./references/components/text-display.md` | text, ascii-font, styled text |
 | Containers | `./references/components/containers.md` | box, scrollbox, borders |
 | Inputs | `./references/components/inputs.md` | input, textarea, select, tab-select |
-| Code & Diff | `./references/components/code-diff.md` | code, line-number, diff |
+| Code & Diff | `./references/components/code-diff.md` | code, line-number, diff, markdown |
 
 ## Resources
 
