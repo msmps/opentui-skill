@@ -1,3 +1,9 @@
+---
+repo: anomalyco/opentui
+last_commit: 6d5d25afda39ac35dac16b571a76b5cce923e69c
+last_commit_date: 2026-03-24
+---
+
 # OpenTUI Skill
 
 OpenTUI platform reference docs. Covers the Core imperative API, React reconciler, Solid reconciler, layout system, components, keyboard handling, animations, and testing.
