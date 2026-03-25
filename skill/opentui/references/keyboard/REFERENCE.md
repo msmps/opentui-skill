@@ -450,11 +450,93 @@ function App() {
 
 > **Note**: `usePaste` is **Solid-only**. React does not have this hook - handle paste via the Core event emitter or input component's `onChange`.
 
+## Text Selection
+
+Text selection is renderer-managed. The renderer owns a single `Selection` object, walks the renderable tree to find selectable children, and emits a `"selection"` event when the user finishes selecting (mouse-up). The `Selection` object aggregates text from all selected renderables automatically.
+
+### Making Renderables Selectable
+
+A renderable must have `selectable` set to `true` to participate in selection. Text-based renderables (`TextRenderable`, `TextareaRenderable`, `ASCIIFontRenderable`, `TextTableRenderable`) support this:
+
+```tsx
+// React / Solid
+<text selectable>This text can be selected</text>
+
+// Core
+const text = new TextRenderable(renderer, {
+  id: "label",
+  content: "This text can be selected",
+  selectable: true,
+})
+```
+
+### Copy-on-Selection (Core)
+
+Listen to the renderer's `"selection"` event. The `Selection` object's `getSelectedText()` returns text aggregated from all selected renderables in reading order:
+
+```typescript
+import type { Selection } from "@opentui/core"
+
+renderer.on("selection", (selection: Selection) => {
+  const text = selection.getSelectedText()
+  if (text) {
+    renderer.copyToClipboardOSC52(text)
+  }
+})
+```
+
+> **Important**: Call `selection.getSelectedText()` on the `Selection` object from the event -- not `renderer.root.getSelectedText()`. Individual renderables only return their own selected text. The `Selection` object aggregates across the tree.
+
+### Copy-on-Selection (Solid)
+
+```tsx
+import { useSelectionHandler } from "@opentui/solid"
+
+function App() {
+  useSelectionHandler((selection) => {
+    const text = selection.getSelectedText()
+    if (text) {
+      renderer.copyToClipboardOSC52(text)
+    }
+  })
+
+  return <text selectable>Select this text</text>
+}
+```
+
+> **Note**: `useSelectionHandler` is **Solid-only**. React does not have this hook -- use the Core `renderer.on("selection", ...)` event.
+
+### Selection Object
+
+The `Selection` object passed to the event callback:
+
+```typescript
+selection.getSelectedText()       // Aggregated text from all selected renderables
+selection.bounds                  // { startX, startY, endX, endY } bounding rect
+selection.selectedRenderables     // Renderable[] with active selections
+selection.isActive                // Whether selection is still active
+```
+
+Individual renderables also expose:
+
+```typescript
+renderable.hasSelection()         // Does this renderable have selected text?
+renderable.getSelectedText()      // Selected text in this renderable only
+```
+
+### How Selection Traversal Works
+
+When the user drags to select, the renderer:
+1. Identifies the selection container (common ancestor of start and end points)
+2. Walks all `selectable` descendants within the selection bounds
+3. Calls `onSelectionChanged(selection)` on each, which computes local selection
+4. Tracks which renderables have active selections in `selection.selectedRenderables`
+
+This means selection works across multiple renderables. Dragging across two `<text selectable>` elements selects text in both, and `selection.getSelectedText()` joins them with newlines.
+
 ## Clipboard API (OSC 52)
 
 Copy text to the system clipboard using OSC 52 escape sequences. Works over SSH and in most modern terminal emulators.
-
-### Core
 
 ```typescript
 // Copy to clipboard
@@ -472,17 +554,6 @@ renderer.clearClipboardOSC52()
 import { ClipboardTarget } from "@opentui/core"
 renderer.copyToClipboardOSC52("text", ClipboardTarget.Primary)   // X11 primary
 renderer.copyToClipboardOSC52("text", ClipboardTarget.Clipboard) // System clipboard (default)
-```
-
-### From Selection
-
-The Selection object provides a convenience method:
-
-```tsx
-// Solid
-useSelectionHandler((selection) => {
-  selection.copyToClipboard()  // Uses OSC 52 internally
-})
 ```
 
 ## Focus and Input Components

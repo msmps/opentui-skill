@@ -67,6 +67,8 @@ const text = new TextRenderable(renderer, {
 </text>
 ```
 
+For copy-on-selection and the full selection API, see `keyboard/REFERENCE.md` (selection).
+
 ## Text Modifiers
 
 Inline styling elements that must be used inside `<text>`:

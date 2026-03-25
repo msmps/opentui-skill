@@ -132,7 +132,8 @@ Input handling?
 ├─ Focus management -> keyboard/REFERENCE.md
 ├─ Paste events -> keyboard/REFERENCE.md
 ├─ Mouse events -> components/containers.md
-└─ Text selection -> components/text-display.md
+├─ Text selection & copy-on-select -> keyboard/REFERENCE.md (selection)
+└─ Clipboard (OSC 52) -> keyboard/REFERENCE.md (clipboard)
 ```
 
 ### "I need to test my TUI"

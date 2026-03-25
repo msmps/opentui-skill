@@ -234,7 +234,7 @@ These hooks fire when the terminal emulator window gains or loses operating syst
 
 ### useSelectionHandler(handler)
 
-Handle text selection events. Solid-only hook - React does not have this.
+Handle text selection events. Fires when the user finishes a mouse selection (mouse-up). Solid-only hook - React does not have this.
 
 ```tsx
 import { useSelectionHandler } from "@opentui/solid"
@@ -242,13 +242,13 @@ import type { Selection } from "@opentui/core"
 
 function SelectableText() {
   const [selected, setSelected] = createSignal("")
+  const renderer = useRenderer()
   
   useSelectionHandler((selection: Selection) => {
     const text = selection.getSelectedText()
     if (text) {
       setSelected(text)
-      // Copy to clipboard if needed
-      selection.copyToClipboard()
+      renderer.copyToClipboardOSC52(text)
     }
   })
   
@@ -261,11 +261,7 @@ function SelectableText() {
 }
 ```
 
-**Selection properties/methods:**
-- `getSelectedText(): string` - Get the selected text content
-- `copyToClipboard(): void` - Copy selection to system clipboard (via OSC 52)
-- `start: ConsolePosition` - Selection start position
-- `end: ConsolePosition` - Selection end position
+The `Selection` object aggregates selected text from all selectable renderables in the tree. See `keyboard/REFERENCE.md` (selection) for full details on the selection API and traversal model.
 
 ### useTimeline(options?)
 
