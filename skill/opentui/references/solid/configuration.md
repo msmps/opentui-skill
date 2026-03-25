@@ -30,8 +30,8 @@ bun install @opentui/solid @opentui/core solid-js
   "compilerOptions": {
     "lib": ["ESNext"],
     "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     
     "jsx": "preserve",
     "jsxImportSource": "@opentui/solid",
@@ -48,6 +48,7 @@ bun install @opentui/solid @opentui/core solid-js
 **Critical settings:**
 - `jsx: "preserve"` - Let Solid's compiler handle JSX
 - `jsxImportSource: "@opentui/solid"` - Import JSX runtime from OpenTUI Solid
+- `module` / `moduleResolution: "NodeNext"` - Recommended for OpenTUI compatibility
 
 ## Bun Configuration
 

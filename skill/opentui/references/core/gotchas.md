@@ -20,19 +20,19 @@ npx jest
 
 ### Bun APIs to Use
 
-Prefer Bun's built-in APIs:
+Prefer Bun's built-in APIs for your application code:
 
 ```typescript
 // CORRECT - Bun APIs
-Bun.file("path").text()           // Instead of fs.readFile
 Bun.serve({ ... })                // Instead of express
 Bun.$`ls -la`                     // Instead of execa
 import { Database } from "bun:sqlite"  // Instead of better-sqlite3
 
 // WRONG - Node.js patterns
-import fs from "node:fs"
 import express from "express"
 ```
+
+> **Note**: OpenTUI itself uses `node:fs` internally for file I/O (for broader compatibility), but your application code should still prefer Bun APIs where available.
 
 ### Avoid process.exit()
 

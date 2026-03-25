@@ -253,7 +253,12 @@ scrollbox.scrollTo(0)           // Scroll to top
 scrollbox.scrollTo(100)         // Scroll to position
 scrollbox.scrollBy(10)          // Scroll relative
 scrollbox.scrollToBottom()      // Scroll to end
+
+// Scroll a child into view (nearest alignment)
+scrollbox.scrollChildIntoView("child-id")  // Searches descendants by ID
 ```
+
+`scrollChildIntoView(childId)` scrolls the minimum amount needed to make the identified descendant visible. It mirrors `Element.scrollIntoView({ block: "nearest" })` from the CSSOM View spec. Works with nested descendants and handles both horizontal and vertical scrolling.
 
 ## Composition Patterns
 

@@ -126,6 +126,18 @@ createEffect(() => {
 })
 ```
 
+## HTML Entity Decoding
+
+Solid's reconciler automatically decodes HTML entities in JSX text content. This means `&lt;`, `&gt;`, `&amp;`, etc. render as their literal characters:
+
+```tsx
+// These render correctly in Solid
+<text>Use &lt;box&gt; for containers</text>  // Displays: Use <box> for containers
+<text>A &amp; B</text>                        // Displays: A & B
+```
+
+This applies to text nodes, the `content` prop, and the `text` prop.
+
 ## Component Naming
 
 ### Underscore vs Hyphen

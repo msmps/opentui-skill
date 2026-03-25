@@ -387,12 +387,45 @@ function ShortcutsHelp() {
 
 ## Paste Events
 
-Handle pasted text:
+Handle pasted content. Paste events deliver raw bytes, not decoded text.
+
+### PasteEvent Object
+
+```typescript
+import { type PasteEvent } from "@opentui/core"
+
+interface PasteEvent {
+  type: "paste"              // Always "paste"
+  bytes: Uint8Array          // Raw pasted bytes
+  metadata?: PasteMetadata   // Optional metadata
+  preventDefault(): void     // Prevent default paste handling
+  defaultPrevented: boolean  // Whether preventDefault was called
+}
+
+interface PasteMetadata {
+  mimeType?: string          // MIME type if available
+  kind?: PasteKind           // Paste kind
+}
+```
+
+### Decoding Paste Bytes
+
+Use `decodePasteBytes` to convert raw bytes to a string, and `stripAnsiSequences` to remove ANSI escape codes:
+
+```typescript
+import { decodePasteBytes, stripAnsiSequences } from "@opentui/core"
+
+const text = decodePasteBytes(event.bytes)          // Decode UTF-8
+const clean = stripAnsiSequences(decodePasteBytes(event.bytes))  // Decode + strip ANSI
+```
 
 ### Core
 
 ```typescript
-renderer.keyInput.on("paste", (text: string) => {
+import { type PasteEvent, decodePasteBytes } from "@opentui/core"
+
+renderer.keyInput.on("paste", (event: PasteEvent) => {
+  const text = decodePasteBytes(event.bytes)
   console.log("Pasted:", text)
 })
 ```
@@ -403,10 +436,12 @@ Solid provides a dedicated `usePaste` hook:
 
 ```tsx
 import { usePaste } from "@opentui/solid"
+import { decodePasteBytes } from "@opentui/core"
 
 function App() {
   usePaste((event) => {
-    console.log("Pasted:", event.text)
+    const text = decodePasteBytes(event.bytes)
+    console.log("Pasted:", text)
   })
   
   return <text>Paste something</text>

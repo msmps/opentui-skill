@@ -350,9 +350,11 @@ function FocusableForm() {
 import { useKeyboard } from "@opentui/solid"
 
 function App() {
+  const renderer = useRenderer()
+  
   useKeyboard((key) => {
     if (key.name === "escape") {
-      process.exit(0)
+      renderer.destroy()  // Never use process.exit() directly!
     }
     
     if (key.ctrl && key.name === "s") {

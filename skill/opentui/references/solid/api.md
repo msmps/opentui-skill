@@ -159,13 +159,15 @@ function GameControls() {
 
 ### usePaste(handler)
 
-Handle paste events.
+Handle paste events. Receives a `PasteEvent` with raw bytes.
 
 ```tsx
 import { usePaste } from "@opentui/solid"
+import { decodePasteBytes } from "@opentui/core"
 
 function PasteHandler() {
-  usePaste((text) => {
+  usePaste((event) => {
+    const text = decodePasteBytes(event.bytes)
     console.log("Pasted:", text)
   })
   
@@ -207,6 +209,28 @@ function ResponsiveLayout() {
   )
 }
 ```
+
+### onFocus(callback) / onBlur(callback)
+
+Handle terminal window focus and blur events. Solid-only hooks.
+
+```tsx
+import { onFocus, onBlur } from "@opentui/solid"
+
+function App() {
+  onFocus(() => {
+    console.log("Terminal window gained focus")
+  })
+  
+  onBlur(() => {
+    console.log("Terminal window lost focus")
+  })
+  
+  return <text>Focus/blur tracking</text>
+}
+```
+
+These hooks fire when the terminal emulator window gains or loses operating system focus. The renderer deduplicates events (won't re-emit the same focus state).
 
 ### useSelectionHandler(handler)
 
@@ -457,6 +481,7 @@ function AnimatedBox() {
   newCode={modifiedCode}
   language="typescript"
   mode="unified"            // unified | split
+  syncScroll                // Sync scroll between split view panes
 />
 ```
 

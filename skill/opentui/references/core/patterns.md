@@ -154,7 +154,8 @@ renderer.keyInput.on("keypress", (key) => {
 })
 
 // Paste events
-renderer.keyInput.on("paste", (text) => {
+renderer.keyInput.on("paste", (event) => {
+  const text = decodePasteBytes(event.bytes)
   currentInput?.setValue(currentInput.value + text)
 })
 ```

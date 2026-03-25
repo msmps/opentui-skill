@@ -85,6 +85,7 @@ Display content?
 ├─ Container with borders/background -> components/containers.md
 ├─ Scrollable content area -> components/containers.md (scrollbox)
 ├─ ASCII art banner/title -> components/text-display.md (ascii-font)
+├─ Data table with borders/wrapping -> components/code-diff.md (TextTable)
 ├─ Code with syntax highlighting -> components/code-diff.md
 ├─ Diff viewer (unified/split) -> components/code-diff.md
 ├─ Line numbers with diagnostics -> components/code-diff.md
@@ -188,7 +189,7 @@ For component naming differences and text modifiers, see `components/REFERENCE.m
 | Text & Display | `./references/components/text-display.md` | text, ascii-font, styled text |
 | Containers | `./references/components/containers.md` | box, scrollbox, borders |
 | Inputs | `./references/components/inputs.md` | input, textarea, select, tab-select |
-| Code & Diff | `./references/components/code-diff.md` | code, line-number, diff, markdown |
+| Code & Diff | `./references/components/code-diff.md` | code, line-number, diff, markdown, text-table |
 
 ## Resources
 

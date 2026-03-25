@@ -34,6 +34,42 @@ renderer.start()           // Start render loop
 renderer.stop()            // Stop render loop
 renderer.destroy()         // Cleanup and exit alternate screen
 renderer.requestRender()   // Request a re-render
+
+renderer.setCursorStyle(options)  // Set cursor style
+renderer.setCursorColor(color)    // Set cursor color
+renderer.setMousePointer(style)   // Set mouse pointer shape
+```
+
+### Cursor & Mouse Pointer
+
+```typescript
+import { type CursorStyleOptions, type MousePointerStyle } from "@opentui/core"
+
+// Set cursor style (options object)
+renderer.setCursorStyle({
+  style: "block",           // "block" | "line" | "underline" | "default"
+  blinking: true,           // Cursor blink
+  color: RGBA.fromHex("#FF0000"),  // Cursor color
+  cursor: "pointer",        // Mouse pointer shape
+})
+
+// Set mouse pointer shape (OSC 22)
+renderer.setMousePointer("pointer")
+// Available: "default" | "pointer" | "text" | "crosshair" | "move" | "not-allowed"
+```
+
+### Renderer Events
+
+```typescript
+renderer.on("resize", (width, height) => {})     // Terminal resized
+renderer.on("focus", () => {})                    // Terminal window gained focus
+renderer.on("blur", () => {})                     // Terminal window lost focus
+renderer.on("theme_mode", (mode) => {})           // "dark" | "light"
+renderer.on("capabilities", (caps) => {})         // Terminal capabilities detected
+renderer.on("selection", (selection) => {})       // Text selection changed
+renderer.on("destroy", () => {})                  // Renderer destroyed
+renderer.on("memory:snapshot", (snapshot) => {})  // Memory snapshot
+renderer.on("debugOverlay:toggle", () => {})      // Debug overlay toggled
 ```
 
 ### Console Overlay
@@ -460,7 +496,8 @@ renderer.keyInput.on("keypress", (key: KeyEvent) => {
   console.log(key.eventType)      // "press" | "release" | "repeat"
 })
 
-renderer.keyInput.on("paste", (text: string) => {
+renderer.keyInput.on("paste", (event: PasteEvent) => {
+  const text = decodePasteBytes(event.bytes)
   console.log("Pasted:", text)
 })
 ```

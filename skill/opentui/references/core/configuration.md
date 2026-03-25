@@ -140,8 +140,8 @@ OPENTUI_NO_GRAPHICS=true bun run src/index.ts
   "compilerOptions": {
     "lib": ["ESNext"],
     "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
@@ -150,6 +150,8 @@ OPENTUI_NO_GRAPHICS=true bun run src/index.ts
   "include": ["src/**/*"]
 }
 ```
+
+> **Note**: OpenTUI uses `NodeNext` module resolution. All internal imports use `.js` extensions. If you use `bundler` resolution, imports still work but `NodeNext` is recommended for compatibility.
 
 ## Building Native Code
 

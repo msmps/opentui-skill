@@ -412,6 +412,7 @@ function AnimatedBox() {
   newCode={modifiedCode}
   language="typescript"
   mode="unified"            // unified | split
+  syncScroll                // Sync scroll between split view panes
   showLineNumbers
 />
 ```
