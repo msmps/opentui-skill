@@ -262,184 +262,43 @@ const styled = new TextRenderable(renderer, {
 - `TextAttributes.HIDDEN`
 - `TextAttributes.STRIKETHROUGH`
 
-### BoxRenderable
+### Box, Input, Select, Tab Select, ScrollBox, ASCII Font
 
-Container with borders and layout.
-
-```typescript
-import { BoxRenderable } from "@opentui/core"
-
-const box = new BoxRenderable(renderer, {
-  id: "box",
-  width: 40,
-  height: 10,
-  backgroundColor: "#1a1a2e",
-  border: true,
-  borderStyle: "single" | "double" | "rounded" | "bold" | "none",
-  borderColor: "#FFFFFF",
-  title: "Panel Title",
-  titleColor: "#FFCC00",                    // Title text color (falls back to border color)
-  titleAlignment: "left" | "center" | "right",
-  bottomTitle: "Footer",                    // Title text in the bottom border
-  bottomTitleAlignment: "left" | "center" | "right",
-  onMouseDown: (event) => {},
-  onMouseUp: (event) => {},
-  onMouseMove: (event) => {},
-})
-```
-
-### InputRenderable
-
-Single-line text input.
+Every component is `new <Name>Renderable(renderer, options)`, composed with
+`.add()`. **Full option props for each live in the shared
+[components](../components/REFERENCE.md) references** (e.g. Box titles →
+[containers.md](../components/containers.md); `minLength` /
+`showSelectionIndicator` → [inputs.md](../components/inputs.md)). This section
+covers only the **Core-specific** surface: imperative composition and event
+enums.
 
 ```typescript
-import { InputRenderable, InputRenderableEvents } from "@opentui/core"
+import { BoxRenderable, TextRenderable } from "@opentui/core"
 
-const input = new InputRenderable(renderer, {
-  id: "input",
-  width: 30,
-  placeholder: "Enter text...",
-  value: "",                       // Initial value
-  maxLength: 100,                  // Maximum number of characters
-  minLength: 3,                    // Minimum length required for submit() to succeed
-  backgroundColor: "#1a1a1a",
-  textColor: "#FFFFFF",
-  cursorColor: "#00FF00",
-  focusedBackgroundColor: "#2a2a2a",
-})
-
-input.on(InputRenderableEvents.CHANGE, (value: string) => {
-  console.log("Value:", value)
-})
-
-input.focus()  // Must be focused to receive input
+const box = new BoxRenderable(renderer, { id: "box", border: true, title: "Panel" })
+box.add(new TextRenderable(renderer, { content: "Hello" }))  // Compose imperatively
+box.focus()                                                   // Focusable boxes only
 ```
 
-**`minLength`** (default `0`): does NOT block typing. It only causes `submit()` to return `false` (no `CHANGE`/`ENTER` emitted) when the current value is shorter than `minLength`. Constructing or setting `minLength > maxLength` throws.
-
-### SelectRenderable
-
-List selection component.
+**Events (Core uses enums; React/Solid use `onChange`/`onSelect` props):**
 
 ```typescript
-import { SelectRenderable, SelectRenderableEvents } from "@opentui/core"
+import {
+  InputRenderableEvents,
+  SelectRenderableEvents,
+  TabSelectRenderableEvents,
+} from "@opentui/core"
 
-const select = new SelectRenderable(renderer, {
-  id: "select",
-  width: 30,
-  height: 10,
-  options: [
-    { name: "Option 1", description: "First option", value: "1" },
-    { name: "Option 2", description: "Second option", value: "2" },
-  ],
-  selectedIndex: 0,
-  showSelectionIndicator: true,    // Show "▶ " marker + gutter (default true)
-})
+input.on(InputRenderableEvents.CHANGE, (value: string) => {})
 
-// Toggle the selection indicator at runtime. When false, the marker is hidden
-// and its 2-column gutter is reclaimed (text shifts left by 2).
-select.showSelectionIndicator = false
-
-// Called when Enter is pressed - selection confirmed
-select.on(SelectRenderableEvents.ITEM_SELECTED, (index, option) => {
-  console.log("Selected:", option.name)
-  performAction(option)
-})
-
-// Called when navigating with arrow keys
-select.on(SelectRenderableEvents.SELECTION_CHANGED, (index, option) => {
-  console.log("Browsing:", option.name)
-  showPreview(option)
-})
-
-select.focus()  // Navigate with up/down/j/k, select with enter
+// ITEM_SELECTED = Enter (confirm selection); SELECTION_CHANGED = arrow keys (browse)
+select.on(SelectRenderableEvents.ITEM_SELECTED, (index, option) => {})
+select.on(SelectRenderableEvents.SELECTION_CHANGED, (index, option) => {})
+tabs.on(TabSelectRenderableEvents.ITEM_SELECTED, (index, option) => {})
 ```
 
-**Event distinction:**
-- `ITEM_SELECTED` - Enter key pressed, user confirms selection
-- `SELECTION_CHANGED` - Arrow keys, user navigating/browsing options
-
-### TabSelectRenderable
-
-Horizontal tab selection.
-
-```typescript
-import { TabSelectRenderable, TabSelectRenderableEvents } from "@opentui/core"
-
-const tabs = new TabSelectRenderable(renderer, {
-  id: "tabs",
-  width: 60,
-  options: [
-    { name: "Home", description: "Dashboard" },
-    { name: "Settings", description: "Configuration" },
-  ],
-  tabWidth: 20,
-})
-
-// Called when Enter is pressed - tab selected
-tabs.on(TabSelectRenderableEvents.ITEM_SELECTED, (index, option) => {
-  console.log("Tab selected:", option.name)
-  switchToTab(index)
-})
-
-// Called when navigating with arrow keys
-tabs.on(TabSelectRenderableEvents.SELECTION_CHANGED, (index, option) => {
-  console.log("Browsing tab:", option.name)
-})
-
-tabs.focus()  // Navigate with left/right/[/], select with enter
-```
-
-**Event distinction** (same as SelectRenderable):
-- `ITEM_SELECTED` - Enter key pressed, user confirms tab
-- `SELECTION_CHANGED` - Arrow keys, user navigating tabs
-
-### ScrollBoxRenderable
-
-Scrollable container.
-
-```typescript
-import { ScrollBoxRenderable } from "@opentui/core"
-
-const scrollbox = new ScrollBoxRenderable(renderer, {
-  id: "scrollbox",
-  width: 40,
-  height: 20,
-  showScrollbar: true,
-  scrollbarOptions: {
-    showArrows: true,
-    trackOptions: {
-      foregroundColor: "#7aa2f7",
-      backgroundColor: "#414868",
-    },
-  },
-})
-
-// Add content that exceeds viewport
-for (let i = 0; i < 100; i++) {
-  scrollbox.add(new TextRenderable(renderer, {
-    id: `line-${i}`,
-    content: `Line ${i}`,
-  }))
-}
-
-scrollbox.focus()  // Scroll with arrow keys
-```
-
-### ASCIIFontRenderable
-
-ASCII art text.
-
-```typescript
-import { ASCIIFontRenderable, RGBA } from "@opentui/core"
-
-const title = new ASCIIFontRenderable(renderer, {
-  id: "title",
-  text: "OPENTUI",
-  font: "tiny" | "block" | "slick" | "shade",
-  color: RGBA.fromHex("#FFFFFF"),
-})
-```
+The `ITEM_SELECTED` / `SELECTION_CHANGED` distinction is identical for Select and
+Tab Select. Inputs must be focused to receive keys (`input.focus()`).
 
 ### FrameBufferRenderable
 

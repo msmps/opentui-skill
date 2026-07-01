@@ -1,8 +1,8 @@
 ---
 name: opentui
-description: Comprehensive OpenTUI skill for building terminal user interfaces. Covers the core imperative API, React reconciler, and Solid reconciler. Use for any TUI development task including components, layout, keyboard handling, animations, and testing.
+description: OpenTUI skill for building terminal user interfaces with the Core, React, or Solid APIs. Use for any TUI task including components, layout, keyboard and keymap handling, animations, and testing.
 metadata:
-   references: core, react, solid
+   references: core, react, solid, components, layout, keyboard, keymap, animation, testing
 ---
 
 # OpenTUI Platform Skill
