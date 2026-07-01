@@ -49,6 +49,7 @@ Based on task type, read from `references/<area>/`:
 | Implement components | `<framework>/api.md` + `components/<category>.md` |
 | Layout/positioning | `layout/REFERENCE.md` + `layout/patterns.md` |
 | Handle keyboard input | `keyboard/REFERENCE.md` |
+| Layered keybindings/commands | `keymap/REFERENCE.md` |
 | Add animations | `animation/REFERENCE.md` |
 | Debug/troubleshoot | `<framework>/gotchas.md` + `testing/REFERENCE.md` |
 | Write tests | `testing/REFERENCE.md` |
