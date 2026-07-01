@@ -309,53 +309,21 @@ Import `ErrorCorrectionLevel` from `@opentui/qrcode`, e.g.
 
 ### RGBA Class
 
-The `RGBA` class from `@opentui/core` can be used in **all frameworks** (Core, React, Solid) for programmatic color manipulation:
-
-```typescript
-import { RGBA } from "@opentui/core"
-
-// From hex string (most common)
-const red = RGBA.fromHex("#FF0000")
-const shortHex = RGBA.fromHex("#F00")       // Short form supported
-
-// From integers (0-255 range for each channel)
-const green = RGBA.fromInts(0, 255, 0, 255)   // r, g, b, a
-const semiGreen = RGBA.fromInts(0, 255, 0, 128) // 50% transparent
-
-// From normalized floats (0.0-1.0 range)
-const blue = RGBA.fromValues(0.0, 0.0, 1.0, 1.0)  // r, g, b, a
-const overlay = RGBA.fromValues(0.1, 0.1, 0.1, 0.7) // Dark semi-transparent
-
-// Common use cases
-const backgroundColor = RGBA.fromHex("#1a1a2e")
-const textColor = RGBA.fromHex("#FFFFFF")
-const borderColor = RGBA.fromInts(122, 162, 247, 255) // Tokyo Night blue
-const shadowColor = RGBA.fromValues(0.0, 0.0, 0.0, 0.5) // 50% black
-```
-
-**When to use each method:**
-- `fromHex()` - When working with design specs or CSS colors
-- `fromInts()` - When you have 8-bit color values (0-255)
-- `fromValues()` - When doing color math or interpolation (normalized 0.0-1.0)
-
-### Using RGBA in React/Solid
+Color props accept string formats (`"#FF0000"`, `"#F00"`, `"red"`, `"transparent"`)
+in all frameworks. For programmatic color manipulation, the `RGBA` class from
+`@opentui/core` (`fromHex` / `fromInts` / `fromValues` / `parseColor`) works in
+Core, React, and Solid alike:
 
 ```tsx
-// React or Solid - RGBA works with color props
 import { RGBA } from "@opentui/core"
 
-const primaryColor = RGBA.fromHex("#7aa2f7")
-
-function MyComponent() {
-  return (
-    <box backgroundColor={primaryColor} borderColor={primaryColor}>
-      <text fg={RGBA.fromHex("#c0caf5")}>Styled with RGBA</text>
-    </box>
-  )
-}
+<box backgroundColor={RGBA.fromHex("#1a1a2e")} borderColor={RGBA.fromInts(122, 162, 247, 255)}>
+  <text fg={RGBA.fromHex("#c0caf5")}>Styled with RGBA</text>
+</box>
 ```
 
-Most props that accept color strings (`"#FF0000"`, `"red"`) also accept `RGBA` objects directly.
+See **[core/api.md → Colors (RGBA)](../core/api.md#colors-rgba)** for the full
+constructor reference and the "when to use each method" guidance.
 
 ## Text Wrapping
 
