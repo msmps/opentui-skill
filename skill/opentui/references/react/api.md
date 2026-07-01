@@ -1,5 +1,8 @@
 # React API Reference
 
+> **Requirements**: `@opentui/react` uses `react-reconciler` 0.33 and requires
+> **React ≥ 19.2**. Run `bun add react@latest react-dom@latest` before upgrading.
+
 ## Rendering
 
 ### createRoot(renderer)
@@ -210,6 +213,51 @@ function AnimatedBox() {
 - `pause()` - Pause playback
 - `restart()` - Restart from beginning
 
+### usePaste(handler)
+
+Subscribe to bracketed-paste events. `handler` receives a `PasteEvent` with raw
+`bytes` (decode with `decodePasteBytes`). The callback is kept stable across
+renders.
+
+```tsx
+import { usePaste } from "@opentui/react"
+import { decodePasteBytes } from "@opentui/core"
+
+function Editor() {
+  usePaste((event) => {
+    console.log("Pasted:", decodePasteBytes(event.bytes))
+  })
+  return <textarea focused />
+}
+```
+
+### useFocus(handler) / useBlur(handler)
+
+Fire when the terminal window gains or loses OS focus.
+
+```tsx
+import { useFocus, useBlur } from "@opentui/react"
+
+useFocus(() => console.log("Terminal gained focus"))
+useBlur(() => console.log("Terminal lost focus"))
+```
+
+### useSelectionHandler(handler)
+
+Fire when the user finishes a text selection (mouse-up). `handler` receives a
+`Selection` (from `@opentui/core`); use `selection.getSelectedText()`.
+
+```tsx
+import { useSelectionHandler } from "@opentui/react"
+
+useSelectionHandler((selection) => {
+  console.log("Selected:", selection.getSelectedText())
+})
+```
+
+> These four hooks (`usePaste`, `useFocus`, `useBlur`, `useSelectionHandler`)
+> mirror the Solid hooks and are available from `@opentui/react`.
+
 ## Components
 
 ### Text Component
@@ -242,7 +290,10 @@ function AnimatedBox() {
   borderStyle="single"      // single | double | rounded | bold
   borderColor="#FFFFFF"
   title="Title"
+  titleColor="#FFCC00"      // Title text color (defaults to border color)
   titleAlignment="center"   // left | center | right
+  bottomTitle="Footer"      // Title in the bottom border
+  bottomTitleAlignment="right"
   
   // Colors
   backgroundColor="#1a1a2e"

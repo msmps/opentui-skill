@@ -44,6 +44,7 @@ Cross-cutting concepts in `./references/<concept>/` have `REFERENCE.md` as the e
    - Setting up project -> `configuration.md`
    - Layout/positioning -> `layout/REFERENCE.md`
    - Keyboard/input handling -> `keyboard/REFERENCE.md`
+   - Layered keybindings/commands -> `keymap/REFERENCE.md`
    - Animations -> `animation/REFERENCE.md`
    - Troubleshooting -> `gotchas.md` + `testing/REFERENCE.md`
 
@@ -84,10 +85,12 @@ Display content?
 ├─ Plain or styled text -> components/text-display.md
 ├─ Container with borders/background -> components/containers.md
 ├─ Scrollable content area -> components/containers.md (scrollbox)
+├─ Standalone scrollbar -> components/containers.md (scrollbar)
 ├─ ASCII art banner/title -> components/text-display.md (ascii-font)
+├─ QR code -> components/text-display.md (qr-code, @opentui/qrcode)
 ├─ Data table with borders/wrapping -> components/code-diff.md (TextTable)
 ├─ Code with syntax highlighting -> components/code-diff.md
-├─ Diff viewer (unified/split) -> components/code-diff.md
+├─ Diff viewer (unified/split, hunk nav) -> components/code-diff.md
 ├─ Line numbers with diagnostics -> components/code-diff.md
 └─ Markdown content (streaming) -> components/code-diff.md (markdown)
 ```
@@ -100,6 +103,8 @@ User input?
 ├─ Multi-line text editor -> components/inputs.md (textarea)
 ├─ Select from a list (vertical) -> components/inputs.md (select)
 ├─ Tab-based selection (horizontal) -> components/inputs.md (tab-select)
+├─ Value slider -> components/inputs.md (slider)
+├─ Declarative/layered keybindings -> keymap/REFERENCE.md (@opentui/keymap)
 └─ Custom keyboard shortcuts -> keyboard/REFERENCE.md
 ```
 
@@ -129,6 +134,7 @@ Animations?
 ```
 Input handling?
 ├─ Keyboard events (keypress, release) -> keyboard/REFERENCE.md
+├─ Layered bindings, commands, leader keys -> keymap/REFERENCE.md
 ├─ Focus management -> keyboard/REFERENCE.md
 ├─ Paste events -> keyboard/REFERENCE.md
 ├─ Mouse events -> components/containers.md
@@ -180,21 +186,33 @@ For component naming differences and text modifiers, see `components/REFERENCE.m
 |---------|------------|-------------|
 | Layout | `./references/layout/REFERENCE.md` | Yoga/Flexbox layout system |
 | Components | `./references/components/REFERENCE.md` | Component reference by category |
-| Keyboard | `./references/keyboard/REFERENCE.md` | Keyboard input handling |
+| Keyboard | `./references/keyboard/REFERENCE.md` | Low-level keyboard input handling |
+| Keymap | `./references/keymap/REFERENCE.md` | Declarative layered keybindings (`@opentui/keymap`) |
 | Animation | `./references/animation/REFERENCE.md` | Timeline-based animations |
 | Testing | `./references/testing/REFERENCE.md` | Test renderer and snapshots |
 
 ### Component Categories
 | Category | Entry File | Components |
 |----------|------------|------------|
-| Text & Display | `./references/components/text-display.md` | text, ascii-font, styled text |
-| Containers | `./references/components/containers.md` | box, scrollbox, borders |
-| Inputs | `./references/components/inputs.md` | input, textarea, select, tab-select |
+| Text & Display | `./references/components/text-display.md` | text, ascii-font, styled text, qr-code |
+| Containers | `./references/components/containers.md` | box, scrollbox, scrollbar, borders |
+| Inputs | `./references/components/inputs.md` | input, textarea, select, tab-select, slider |
 | Code & Diff | `./references/components/code-diff.md` | code, line-number, diff, markdown, text-table |
+
+### Additional Packages
+| Package | Description | Docs |
+|---------|-------------|------|
+| `@opentui/keymap` | Layered keybinding/command engine (Bun or Node, no FFI) | `./references/keymap/REFERENCE.md` |
+| `@opentui/qrcode` | QR code component | `./references/components/text-display.md` |
+| `@opentui/ssh` | Serve a TUI over SSH | `./references/core/REFERENCE.md` |
+| `@opentui/three` | Three.js WebGPU renderer (formerly `core/src/3d`) | upstream `packages/three` |
+| `@opentui/examples` | Runnable examples (formerly `core/src/examples`) | upstream `packages/examples` |
+
+Core also ships a native **Audio** engine and OSC desktop **notifications** — see `./references/core/api.md`.
 
 ## Resources
 
 **Repository**: https://github.com/anomalyco/opentui
 **Core Docs**: https://github.com/anomalyco/opentui/tree/main/packages/core/docs
-**Examples**: https://github.com/anomalyco/opentui/tree/main/packages/core/src/examples
+**Examples**: https://github.com/anomalyco/opentui/tree/main/packages/examples/src
 **Awesome List**: https://github.com/msmps/awesome-opentui

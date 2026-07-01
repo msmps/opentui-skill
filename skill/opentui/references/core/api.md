@@ -21,6 +21,37 @@ const renderer = await createCliRenderer({
 })
 ```
 
+#### Custom stdin/stdout (SSH, PTY, xterm.js)
+
+`CliRendererConfig` accepts custom streams so the renderer can drive a transport
+other than the local terminal. When `stdout` is not `process.stdout`, native
+frame bytes are routed through an internal `NativeSpanFeed`.
+
+```typescript
+const renderer = await createCliRenderer({
+  stdin,                      // NodeJS.ReadStream (default: process.stdin)
+  stdout,                     // NodeJS.WriteStream (default: process.stdout)
+  width: cols,                // Fallback columns for non-TTY / custom stdout
+  height: rows,               // Fallback rows for non-TTY / custom stdout
+  remote: true,               // Treat output as a remote terminal (auto-detects SSH/mosh for process.stdout)
+  exitOnCtrlC: false,
+})
+
+// SIGWINCH is only auto-registered for process.stdout — call resize() manually
+// when an external terminal reports a new size:
+renderer.resize(newCols, newRows)
+
+// Each stdin/stdout object may be owned by one renderer at a time. destroy()
+// releases ownership and restores stdout.write. Allow a microtask to flush
+// feed-backed bytes before closing the transport:
+renderer.destroy()
+await new Promise<void>((resolve) => queueMicrotask(resolve))
+```
+
+Size resolution order: `stdout.columns/rows` → `config.width/height` → `80x24`.
+Env overrides: `OTUI_OVERRIDE_STDOUT` (force stdout routing),
+`OTUI_USE_ALTERNATE_SCREEN`.
+
 ### CliRenderer Instance
 
 ```typescript
@@ -70,7 +101,54 @@ renderer.on("selection", (selection) => {})       // Text selection finished (mo
 renderer.on("destroy", () => {})                  // Renderer destroyed
 renderer.on("memory:snapshot", (snapshot) => {})  // Memory snapshot
 renderer.on("debugOverlay:toggle", () => {})      // Debug overlay toggled
+renderer.on("frame", ({ frameId }) => {})         // A frame was committed
+renderer.on("focused_renderable", (current, previous) => {})  // Focus moved
 ```
+
+### Scheduler & Idle
+
+```typescript
+await renderer.idle()             // Resolves when no render pass/scheduled render is pending
+renderer.getSchedulerState()      // { isRunning, isRendering, hasScheduledRender }
+renderer.resize(width, height)    // Apply an external terminal resize
+```
+
+### Desktop Notifications (OSC)
+
+Send a terminal notification via OSC 9 / 777 / 99. Returns `true` only when a
+supported protocol was detected.
+
+```typescript
+if (renderer.capabilities?.notifications) {
+  renderer.triggerNotification("Tests passed", "CI")  // (message, title?)
+}
+```
+
+tmux requires `set -g allow-passthrough on`; Zellij uses OSC 99. Env overrides:
+`OPENTUI_NOTIFICATION_PROTOCOL` (`osc9`/`osc777`/`osc99`/`none`),
+`OPENTUI_NOTIFICATIONS=0`.
+
+### Audio
+
+Native audio engine exported from `@opentui/core`.
+
+```typescript
+import { Audio } from "@opentui/core"
+
+const audio = Audio.create({ autoStart: false })  // or setupAudio(options?)
+audio.on("error", (error, context) => console.error(`${context.action}: ${error.message}`))
+
+const sound = await audio.loadSoundFile("click.wav")
+if (sound != null && audio.start()) {
+  audio.play(sound, { volume: 0.8, pan: 0, loop: false })
+}
+audio.dispose()
+```
+
+Key methods: `start()`, `stop()`, `loadSound(data)`, `loadSoundFile(path)`,
+`play(sound, options?)`, `stopVoice(voice)`, `group(name)`, `setGroupVolume()`,
+`setMasterVolume()`, `listPlaybackDevices()`, `getStats()`, `dispose()`.
+`AudioPlayOptions`: `{ volume?, pan?, loop?, groupId? }` (32 voice slots).
 
 ### Console Overlay
 
@@ -200,7 +278,10 @@ const box = new BoxRenderable(renderer, {
   borderStyle: "single" | "double" | "rounded" | "bold" | "none",
   borderColor: "#FFFFFF",
   title: "Panel Title",
+  titleColor: "#FFCC00",                    // Title text color (falls back to border color)
   titleAlignment: "left" | "center" | "right",
+  bottomTitle: "Footer",                    // Title text in the bottom border
+  bottomTitleAlignment: "left" | "center" | "right",
   onMouseDown: (event) => {},
   onMouseUp: (event) => {},
   onMouseMove: (event) => {},
@@ -219,6 +300,8 @@ const input = new InputRenderable(renderer, {
   width: 30,
   placeholder: "Enter text...",
   value: "",                       // Initial value
+  maxLength: 100,                  // Maximum number of characters
+  minLength: 3,                    // Minimum length required for submit() to succeed
   backgroundColor: "#1a1a1a",
   textColor: "#FFFFFF",
   cursorColor: "#00FF00",
@@ -231,6 +314,8 @@ input.on(InputRenderableEvents.CHANGE, (value: string) => {
 
 input.focus()  // Must be focused to receive input
 ```
+
+**`minLength`** (default `0`): does NOT block typing. It only causes `submit()` to return `false` (no `CHANGE`/`ENTER` emitted) when the current value is shorter than `minLength`. Constructing or setting `minLength > maxLength` throws.
 
 ### SelectRenderable
 
@@ -248,7 +333,12 @@ const select = new SelectRenderable(renderer, {
     { name: "Option 2", description: "Second option", value: "2" },
   ],
   selectedIndex: 0,
+  showSelectionIndicator: true,    // Show "▶ " marker + gutter (default true)
 })
+
+// Toggle the selection indicator at runtime. When false, the marker is hidden
+// and its 2-column gutter is reclaimed (text shifts left by 2).
+select.showSelectionIndicator = false
 
 // Called when Enter is pressed - selection confirmed
 select.on(SelectRenderableEvents.ITEM_SELECTED, (index, option) => {

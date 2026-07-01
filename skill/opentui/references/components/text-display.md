@@ -235,6 +235,61 @@ Font: block
 ▀▀▀▀ ▀    ▀▀▀ ▀  ▀
 ```
 
+## QR Code Component
+
+Render a QR code in the terminal. Ships as a **separate package**,
+`@opentui/qrcode` (not part of `@opentui/core`).
+
+```bash
+bun add @opentui/qrcode
+```
+
+```typescript
+// Core
+import { createCliRenderer } from "@opentui/core"
+import { QRCodeRenderable } from "@opentui/qrcode"
+
+const renderer = await createCliRenderer()
+const qr = new QRCodeRenderable(renderer, {
+  id: "docs-link",
+  content: "https://opentui.com/docs/getting-started",
+  quietZone: 4,
+  scale: 2,
+})
+renderer.root.add(qr)
+```
+
+React and Solid require explicit element registration (the elements are not
+built in):
+
+```tsx
+// React — element <qr-code>
+import { registerQRCode } from "@opentui/qrcode/react"
+registerQRCode()
+<qr-code content="https://opentui.com" quietZone={4} scale={2} />
+
+// Solid — element <qr_code> (underscore)
+import { registerQRCode } from "@opentui/qrcode/solid"
+registerQRCode()
+<qr_code content="https://opentui.com" quietZone={4} scale={2} />
+```
+
+| Prop | Type | Default | Notes |
+|------|------|---------|-------|
+| `content` | `string` | `""` | Text/URL to encode |
+| `errorCorrectionLevel` | `ErrorCorrectionLevel` | `M` | `.L` / `.M` / `.Q` / `.H` |
+| `quietZone` | `number` | `4` | Must be ≥ 4 (throws otherwise) |
+| `scale` | `number` | `1` | Columns per module before fitting |
+| `fit` | `"contain" \| "none"` | `"contain"` | `contain` shrinks to parent |
+| `foregroundColor` | `ColorInput` | `"#000000"` | Dark module color |
+| `backgroundColor` | `ColorInput` | `"#ffffff"` | Light module / quiet-zone color |
+| `fallbackContent` | `string` | `""` | Shown when too small to render |
+| `fallbackColor` | `ColorInput` | `"#ffffff"` | Fallback text color |
+
+Import `ErrorCorrectionLevel` from `@opentui/qrcode`, e.g.
+`errorCorrectionLevel: ErrorCorrectionLevel.H`. Read-only getters: `version`,
+`moduleCount`.
+
 ## Colors
 
 ### Color Formats

@@ -60,7 +60,8 @@ skill/opentui/
     ├── solid/            # Solid reconciler (5-file pattern)
     ├── components/       # Component categories
     ├── layout/           # Yoga/Flexbox layout
-    ├── keyboard/         # Input handling
+    ├── keyboard/         # Low-level input handling
+    ├── keymap/           # Declarative layered keybindings
     ├── animation/        # Timeline animations
     └── testing/          # Test renderer + snapshots
 
@@ -83,9 +84,13 @@ The main `SKILL.md` contains decision trees for:
 
 **Frameworks**: Core (imperative), React (declarative), Solid (fine-grained reactivity)
 
-**Components**: text, box, scrollbox, input, textarea, select, tab-select, ascii-font, code, line-number, diff
+**Components**: text, box, scrollbox, scrollbar, input, textarea, select, tab-select, slider, ascii-font, code, line-number, diff, markdown, qr-code
 
-**Cross-cutting**: Layout (Yoga/Flexbox), Keyboard handling, Animations, Testing
+**Cross-cutting**: Layout (Yoga/Flexbox), Keyboard handling, Keymap, Animations, Testing
+
+**Additional packages**: `@opentui/keymap`, `@opentui/qrcode`, `@opentui/ssh`, native Audio, OSC notifications
+
+**Runtime**: Bun (reference) or Node.js 26.3.0 (`--experimental-ffi` for the native renderer)
 
 ## Credits & Inspiration
 
@@ -101,4 +106,4 @@ MIT - see [LICENSE](LICENSE)
 
 ---
 
-**Upstream**: `anomalyco/opentui` | **Last synced commit**: `6d5d25a` | **Date**: 2026-03-24
+**Upstream**: `anomalyco/opentui` | **Last synced commit**: `cea1dae` | **Date**: 2026-06-26

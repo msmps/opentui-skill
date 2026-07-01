@@ -329,7 +329,10 @@ function AnimatedBox() {
   borderStyle="single"      // single | double | rounded | bold
   borderColor="#FFFFFF"
   title="Title"
+  titleColor="#FFCC00"      // Title text color (defaults to border color)
   titleAlignment="center"   // left | center | right
+  bottomTitle="Footer"      // Title in the bottom border
+  bottomTitleAlignment="right"
   
   // Colors
   backgroundColor="#1a1a2e"
