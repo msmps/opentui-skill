@@ -152,6 +152,16 @@ Testing?
 └─ Debugging tests -> testing/REFERENCE.md
 ```
 
+### "I need platform capabilities (audio, notifications, SSH)"
+
+```
+Platform capability?
+├─ Play sound / native audio -> core/api.md (Audio)
+├─ Desktop notifications (OSC 9/777/99) -> core/api.md (triggerNotification)
+├─ Custom stdin/stdout (PTY, xterm.js) -> core/api.md (createCliRenderer)
+└─ Serve a TUI over SSH -> core/REFERENCE.md (@opentui/ssh)
+```
+
 ### "I need to debug/troubleshoot"
 
 ```
